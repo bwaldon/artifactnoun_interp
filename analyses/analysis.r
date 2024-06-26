@@ -113,15 +113,6 @@ ggplot(d_withExclusions_responseProps_byContextandNoun, aes(x = Context, y = Poi
 ggsave(sprintf("../viz/%s/response_proportions_byContextandNoun.pdf", study), width = 4, height = 3, units = "in")
 ggsave(sprintf("../viz/%s/response_proportions_byContextandNoun.png", study), width = 4, height = 3, units = "in")
 
-d_withExclusions_responseProps_byDomainandNoun <- d_withExclusions %>%
-  group_by(Domain,Noun) %>%
-  summarise(nYes = sum(Question == "1.0"),
-            nTotal = n(),
-            binom_conf = binconf(nYes, nTotal, return.df = TRUE)) %>%
-  ungroup() %>%
-  unnest(binom_conf) %>%
-  mutate(Noun = relevel(factor(Noun), ref = "firearm"))
-
 d_withExclusions_responseProps_byNoun <- d_withExclusions %>%
   group_by(Noun) %>%
   summarise(nYes = sum(Question == "1.0"),
