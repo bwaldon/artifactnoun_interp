@@ -1,0 +1,13 @@
+Noun,Domain,Context,nYes,nTotal
+bicycle,legal,full,40,73
+bicycle,legal,restricted,49,94
+bicycle,ordinary,full,38,62
+bicycle,ordinary,restricted,42,100
+firearm,legal,full,57,84
+firearm,legal,restricted,49,82
+firearm,ordinary,full,53,67
+firearm,ordinary,restricted,61,88
+table,legal,full,62,79
+table,legal,restricted,44,83
+table,ordinary,full,49,70
+table,ordinary,restricted,59,97
