@@ -64,6 +64,9 @@ d_withExclusions_responseProps <- d_withExclusions %>%
   mutate(Context = relevel(factor(Context), ref = "restricted")) %>%
   mutate(Noun = relevel(factor(Noun), ref = "firearm"))
 
+write_csv(d_withExclusions_responseProps %>% select(-PointEst, -Lower, -Upper),
+          file = sprintf("%s_raw_counts.csv",study))
+
 ggplot(d_withExclusions_responseProps, aes(x = Context, y = PointEst, fill = Domain)) +
   facet_wrap(~Noun) +
   geom_bar(stat = "identity", position = "dodge", width = 0.9) +
