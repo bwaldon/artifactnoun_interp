@@ -45,6 +45,15 @@ percent_excluded = length(excluded_participants) / length(d$ResponseId)
 d_withExclusions <- d %>%
   filter(!(ResponseId %in% excluded_participants))
 
+# 2.5 demographic summaries for "firearm" participants
+
+table((d_withExclusions %>% filter(Noun == "firearm"))$gender)
+table(is.na((d_withExclusions %>% filter(Noun == "firearm"))$gender))
+
+
+table((d_withExclusions %>% filter(Noun == "firearm"))$`Party...38`)
+table(is.na((d_withExclusions %>% filter(Noun == "firearm"))$`Party...38`))
+
 # 3. data summaries
 
 if (study == "experiment2") {
@@ -64,8 +73,8 @@ d_withExclusions_responseProps <- d_withExclusions %>%
   mutate(Context = relevel(factor(Context), ref = "restricted")) %>%
   mutate(Noun = relevel(factor(Noun), ref = "firearm"))
 
-write_csv(d_withExclusions_responseProps %>% select(-PointEst, -Lower, -Upper),
-          file = sprintf("%s_raw_counts.csv",study))
+write_csv(d_withExclusions_responseProps,
+          file = sprintf("%s_results_byContextDomainNoun.csv",study))
 
 ggplot(d_withExclusions_responseProps, aes(x = Context, y = PointEst, fill = Domain)) +
   facet_wrap(~Noun) +
@@ -109,6 +118,9 @@ ggplot(d_withExclusions_responseProps_byContextandNoun, aes(x = Context, y = Poi
   ylab("Proportion of 'yes' response") +
   xlab("Definition") +
   scale_fill_viridis(discrete = TRUE, begin = 0.5) 
+
+write_csv(d_withExclusions_responseProps_byContextandNoun,
+           file = sprintf("%s_results_byContextNoun.csv",study))
 
 ggsave(sprintf("../viz/%s/response_proportions_byContextandNoun.pdf", study), width = 4, height = 3, units = "in")
 ggsave(sprintf("../viz/%s/response_proportions_byContextandNoun.png", study), width = 4, height = 3, units = "in")
