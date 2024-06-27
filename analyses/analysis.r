@@ -39,7 +39,8 @@ non_US <- (d %>% filter(!(Country == "2.0")))$ResponseId
 # # who self-reports non-native English? 
 non_english <- (d %>% filter((Fluency == "3.0")))$ResponseId
 
-excluded_participants <- unique(c(fail_attn,fail_comp,fail_trans,non_US,non_english))
+# # not excluding non_english, because it wasn't a preregistered exclusion criterion.
+excluded_participants <- unique(c(fail_attn,fail_comp,fail_trans,non_US))
 percent_excluded = length(excluded_participants) / length(d$ResponseId)
 
 d_withExclusions <- d %>%
@@ -49,7 +50,6 @@ d_withExclusions <- d %>%
 
 table((d_withExclusions %>% filter(Noun == "firearm"))$gender)
 table(is.na((d_withExclusions %>% filter(Noun == "firearm"))$gender))
-
 
 table((d_withExclusions %>% filter(Noun == "firearm"))$`Party...38`)
 table(is.na((d_withExclusions %>% filter(Noun == "firearm"))$`Party...38`))
