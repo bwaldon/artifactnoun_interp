@@ -148,6 +148,9 @@ ggplot(d_withExclusions_responseProps_byNoun, aes(x = Noun, y = PointEst)) +
   xlab("Definition") +
   scale_fill_viridis(discrete = TRUE, begin = 0.5) 
 
+write_csv(d_withExclusions_responseProps_byNoun,
+          file = sprintf("%s_results_byNoun.csv",study))
+
 ggsave(sprintf("../viz/%s/response_proportions_byNoun.pdf", study), width = 4, height = 3, units = "in")
 ggsave(sprintf("../viz/%s/response_proportions_byNoun.png", study), width = 4, height = 3, units = "in")
 
