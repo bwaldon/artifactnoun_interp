@@ -125,6 +125,35 @@ write_csv(d_withExclusions_responseProps_byContextandNoun,
 ggsave(sprintf("../viz/%s/response_proportions_byContextandNoun.pdf", study), width = 4, height = 3, units = "in")
 ggsave(sprintf("../viz/%s/response_proportions_byContextandNoun.png", study), width = 4, height = 3, units = "in")
 
+d_withExclusions_responseProps_byDomainandNoun <- d_withExclusions %>%
+  group_by(Domain,Noun) %>%
+  summarise(nYes = sum(Question == "1.0"),
+            nTotal = n(),
+            binom_conf = binconf(nYes, nTotal, return.df = TRUE)) %>%
+  ungroup() %>%
+  unnest(binom_conf) %>%
+  mutate(Noun = relevel(factor(Noun), ref = "firearm"))
+
+ggplot(d_withExclusions_responseProps_byDomainandNoun, aes(x = Domain, y = PointEst, fill = Domain)) +
+  facet_wrap(~Noun) +
+  geom_bar(stat = "identity", position = "dodge", width = 0.9) +
+  geom_errorbar(aes(ymin = Lower, ymax = Upper), 
+                size = 0.5,
+                width = 0.2,
+                position = position_dodge(0.9)) +
+  theme_bw() +
+  geom_hline(yintercept = 0.5, linetype = "dashed", color = "red") +
+  theme(axis.text.x = element_text(angle = 45, hjust=1),
+        legend.position = "none") +
+  ylab("Proportion of 'yes' response") +
+  scale_fill_viridis(discrete = TRUE, begin = 0.5) 
+
+write_csv(d_withExclusions_responseProps_byDomainandNoun,
+          file = sprintf("%s_results_byDomainNoun.csv",study))
+
+ggsave(sprintf("../viz/%s/response_proportions_byDomainandNoun.pdf", study), width = 4, height = 3, units = "in")
+ggsave(sprintf("../viz/%s/response_proportions_byDomainandNoun.png", study), width = 4, height = 3, units = "in")
+
 d_withExclusions_responseProps_byNoun <- d_withExclusions %>%
   group_by(Noun) %>%
   summarise(nYes = sum(Question == "1.0"),
