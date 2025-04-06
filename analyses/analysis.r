@@ -8,7 +8,7 @@ library(readxl)
 library(Hmisc)
 # for frequentist modeling
 library(lme4)
-# for bayesian modeling 
+# for bayesian modeling (exploratory, not reported in paper)
 library(brms)
 # for colorblind-friendly plot themes
 library(viridis)
